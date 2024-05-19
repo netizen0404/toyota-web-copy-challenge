@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toyota</title>
+    <style>
+        html, body{
+            margin: 0;
+            font-size: 16px;
+            height: 100vh;  /*如果啲野係body下一路加落去其實唔洗落vh 自動會出scroll bar*/
+            /*正路如果落左vh 鎖死左長度而又無overflow auto 咁佢係睇唔到*/
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        .container{
+            height: 100%;
+        }
+        .menu{
+            width: 250px; /*浮出黎既野唔洗flex 因為佢唔係under其他野*/
+            /*自己fixed唔洗parent落relative 自己就可以浮面 做到同其他div 平排效果  因為抽左出黎*/
+            background-color: white;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .content{
+            /* position: fixed; /*fixed會抽離左個container 繼承唔到parent height width*/
+            margin-left: 250px;
+        }
+        .brand-logo{
+            display: flex;
+            justify-content: center;
+            padding: 30px;
+            flex:0 0 80px;
+        }
+        .brand-logo img{
+            width: 145px;
+            object-fit: contain;
+        }
+        .menu-items{
+            /* transform: translateY(280px); */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;  
+            flex:1;
+            color: black;
+        }
+        .menu-items>div{
+            flex:0 0 80px;
+            font-size:0.875rem;
+            display: flex;  /*啲字係div既囝囝 個div已經係parent*/
+            align-items: center;  /*margin 0 左右auto 只係打橫置中 同埋要有width先做到*/
+            padding: 0 35px 0 40px; 
+        }
+        .inner-item{
+            display: flex;
+        }
+        .inner-item>div:first-child{
+            flex:1;
+            transition: all 0.3s;
+        }
+
+        .inn-item{
+            transition: all 0.3s;
+        }
+        .inner-item:hover, .inn-item:hover{
+            color: #eb0a1e;
+            cursor: pointer;
+        }
+
+
+
+        .inner-item>div:last-child{
+            flex:0 0 0;
+            border: solid #58595b;
+            border-width: 0 1px 1px 0;
+            display: inline-block;
+            padding: 2px;
+            transform: rotate(-45deg);
+            -webkit-transform: rotate(-45deg);
+            transition: all 0.3s; /*加係要郁既item度*/
+        }
+
+        .reser-wrapper{
+            flex: 0 0 130px;
+            overflow: hidden;
+        }
+        .reser-container{
+            height: 200%;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.2s;
+        }
+        .reservation{
+            flex:0 0 50%;
+            background: #eb0a1e;
+            color:white;
+            font-weight: bold;
+            letter-spacing: 2px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .reservation2{
+            flex:0 0 50%;
+            background: #dd0d1e;
+            color:white;
+            font-weight: bold;
+            letter-spacing: 2px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        /*如果係hover落transition 得hover有trans not hover果時就唔會trans*/
+        .reser-wrapper:hover .reser-container{
+            transform: translateY(-50%);
+        }
+
+        .square-btn-wrapper{
+            flex:0 0 60px;
+            display:flex;
+        }
+        .square-btn-wrapper>div{
+            flex:1;
+        }
+        .left-wrapper{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .left-wrapper:hover .square-left .top{  /*佢hover既話 佢既*/
+            transform: translate(-2px,-2px);
+            background-color: #eb0a1e;
+        }
+
+        .left-wrapper:hover .square-left .bot{
+            transform: translate(-2px,2px);
+            background-color: #eb0a1e;
+        }
+
+        .left-wrapper:hover .square-right .top{
+            transform: translate(2px,-2px);
+            background-color: #eb0a1e;
+        }
+
+        .left-wrapper:hover .square-right .bot{
+            transform: translate(2px,2px);
+            background-color: #eb0a1e;
+        }
+
+        .square-wrapper{
+            flex:0 0 17px;
+            height: 17px;
+            display: flex;
+        }
+        .square-left{
+            flex:1;
+            margin-right: 3px;
+            display: flex;
+            flex-direction: column;
+        }
+        .square-right{
+            flex:1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top{
+            flex:1;
+            background-color:#58595B;
+            transition: all 0.3s;
+        }
+
+        .bot{
+            flex:1;
+            margin-top: 3px;
+            background-color: #58595B;
+            transition: all 0.3s;
+        }
+        .section1{
+            height: 100vh;
+            background: url("img/bg.jpeg") no-repeat fixed left; 
+            background-size: cover;
+        }
+        .section2{
+            height: 100vh;
+            padding-left: 60px;
+            background: #f6f6f6;
+        }
+
+        .section2-wrapper{
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            margin-right: 180px;
+            overflow: hidden;
+        }
+
+        /* .stn2-container{
+            display: flex;
+            flex-direction: column;
+            width: 900px;
+            height: 550px;
+        } */
+        .section2-wrapper>div:first-child{
+            font-weight: bold;
+            color: #c7c7c7;
+            font-size: 2rem;
+            padding-top:125px;
+            padding-left:60px;
+        }
+        .section2-wrapper>div:nth-child(2){
+            overflow: hidden;
+            padding-left:60px;
+        }
+
+        .suv{
+            font-weight: bold;
+            color: #c7c7c7;
+            font-size: 9.375rem;
+            margin-top: -30px;
+            letter-spacing:-5px;
+            transform: translateX(-350px);
+            transition: all 0.5s;
+            transition-timing-function: ease-out;
+        }
+        .car-container{
+            flex: 1;
+            height: 50%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: -9%;
+            transform: translateY(-55px);
+        }
+
+        .car-wrapper{
+            height: 500px;
+            width: 500px;
+            text-align: center;
+            transform: translateX(1600px);
+            transition-delay:  0.5s;
+            transition-timing-function: ease-out;
+            transition-duration: 1.5s;
+        }
+
+        /* .carImg{
+                height:150%;
+                width:150%;
+                object-fit: scale-down;
+            } */
+
+        .car{
+            position: relative;
+            height: 100%;
+        }
+
+        .wheel1-wrapper{
+            /* position: relative;
+            left: -224px;
+            top: -261px; */
+            position: absolute;
+            left: 151px;
+            top: 291px;
+            animation: routier 1s ease-out 2;
+            animation-play-state: paused;
+        }
+
+        .wheel2-wrapper{
+            /* position: relative;
+            right: -208px;
+            top: -418px; */
+            position: absolute;
+            left: 584px;
+            top: 288px;
+            animation: routier 1s ease-out 2; /*如果難夾總時長 可以動畫較-720deg之後依度調總時長*/
+            animation-play-state: paused; /*一開波唔轉 等style改做running先轉*/
+            /* animation: routier;
+            animation-duration: 2.5s 每次動畫轉幾耐 如果較10秒就10秒先轉一次360度勁慢;
+            animation-timing-function: ease-out 最尾變慢;
+            animation-iteration-count: infinite;  重復幾次*/
+        }
+
+        @keyframes routier{
+            100%{
+                transform: rotate(-360deg);
+            }
+        }
+
+        .desc-wrapper{
+            flex: 0 0 300px;
+            display: flex;
+            font-family:'Noto Sans TC','Montserrat','Roboto Condensed',Helvetica,Arial,sans-serif;
+        }
+        .desc-left{
+            flex:1;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+        .desc-right{
+            flex:0 0 550px;
+            display: flex;
+            flex-direction: column;
+            margin-top: -30px;
+            transform: translateX(550px);
+            transition: all 0.5s;
+            transition-timing-function: ease-out;
+        }
+        .desc-top{
+            flex:1;
+            transform: translateY(40px);
+        }
+        .desc-bot{
+            flex:0 0 90px;
+        }
+
+        .dot-container{
+            height: 50px;
+            width: 160px;
+            display: flex;
+            gap: 35px;
+            margin-left: 12%; /*padding既話hover會著埋*/
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .dot{
+            flex:0 0 4px;
+            height: 4px;
+            background: #58595b;
+        }
+
+        .dot-container:hover{
+            cursor: pointer;
+        }
+
+        .dot-container>div:first-child{
+            background-color: #eb0a1e;
+        }
+
+        .desc-top>div:first-child{
+            color: #eb0a1e;
+            font-size: 4.625rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .desc-top>div:nth-child(2){
+            margin-bottom: 20px;
+        }
+        .desc-top>div:nth-child(3){
+            display: flex;
+            height: 70px;
+            width: 400px;
+        }
+        .inner-left{
+            flex:1;
+            border-right: 1px solid #e5e5e5;
+        }
+        .inner-right{
+            flex:1;
+            padding-left: 20px;
+        }
+        .inner-top{
+            height: 50px;
+            font-size: 1.875rem;
+            font-weight: 300;
+            color: #58595b;
+        }
+        .inner-bot{
+            height: 20px;
+            font-size: 0.875rem;        
+        }
+        .desc-right .desc-bot{
+            display: flex;
+            width: 400px;
+        }
+        .pageUp{
+            flex:1;
+
+        }
+        .pageDown{
+            flex:1;
+            display: flex;
+        }
+        .pageUp>div:first-child{
+            /* border: solid black;
+            border-width: 0 3px 3px 0;
+            display: inline-block;
+            padding: 3px;
+            transform: rotate(135deg);
+            -webkit-transform: rotate(135deg); */
+            display: inline-block;
+            height:0;
+            width:0;
+            border-style: solid;
+            border-width: 5px 10px 5px 0;
+            border-color: transparent #c2c2c2 transparent transparent;
+            /*整三角形既重點係height width= 0 靠border撐  但span係無width height 所以element一定要用div*/
+        }
+
+        .pageDown>p{
+            flex: 1;
+            color: #c7c7c7 ;
+            font-family: "Roboto Condensed";
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .pageDown>div:nth-child(2){
+            flex: 0 0 90px;
+            height: 2px;
+            transform: translate(-33px, 26px);
+            background-color: #c7c7c7 ;
+            transition: all 0.3s;
+        }
+
+        .pageDown>div:last-child{
+            flex:0 0 0px;   /*完全唔明點解*/
+            height: 0;
+            width: 0;
+            border-style: solid;
+            border-width: 5px 0 5px 10px;
+            transform: translate(-33px, 22px);
+            border-color: transparent transparent transparent #c2c2c2;
+        }
+
+        .pageDown:hover>p{
+            transform: translateX(10px);
+            transition: all 0.3s;
+        }
+
+        .pageDown:hover>div:nth-child(2){
+            flex: 0 0 80px;
+        }
+
+        .pageUp>div:nth-child(2){
+            display: inline-block;
+            width: 90px;
+            height: 2px;
+            transform: translate(-12px, -4px);
+            background-color: #c7c7c7 ;
+            transition: all 0.3s;
+        }
+        .pageUp>p{
+            display: inline-block;
+            color: #c7c7c7 ;
+            font-family: "Roboto Condensed";
+            font-weight: bold;
+        }
+
+        .pageUp:hover>div:nth-child(2){
+            width: 80px;
+        }
+        .pageUp:hover, .pageDown:hover{
+            cursor: pointer;
+        }
+
+        .pageUp>span:last-child{
+
+        }
+
+        .inner-item:hover .trans{   /*上面contain hover既時候  入面既div郁*/
+            margin-right: -10px;
+        }
+
+        .right-bar-container{
+            width: 180px;
+            height: 100vh;
+            position: fixed;
+            background: white;
+            right:0;
+            transform: translateX(100%);
+            transition: all 0.5s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ur-helper{
+            flex: 0 0 100px;
+            /* position: relative;  咁寫係隻div relative to 原本既位 寫bottom0係將成隻div扯落Bottm 0 而唔係div入面既野 */
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #c7c7c7;
+            display: flex;
+            align-items: flex-end;  /*將入面既野放落flex既底*/
+            justify-content: center;
+            /* bottom: 0; */
+        }
+
+        .right-bar-wrapper{
+            flex:1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .right-bar-wrapper2{
+            /* flex:0 0 576px; 如果大container落左height hover個伸展效果就有局限 當height越大 其他item會壓扁*/
+            /* display: flex;
+            flex-direction: column; */
+            /*justify-content: space-evenly; /*border同element 同element之間都均分空間*/
+        }
+
+        .right-bar-wrapper2>div{
+            /* flex:1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center; */
+            margin: 20px 0px;
+        }
+
+        .triangle-wrapper{
+            flex:0 0 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .triangle{
+            height:0;
+            width:0;
+            border-width: 5px 5px 0 5px;
+            border-color: #c7c7c7 transparent transparent transparent;
+            border-style: solid;
+        }
+
+        .right-bar-wrapper2>div>div:first-child{
+            height: 69px;
+            width: 70px;
+            background-size: contain;
+            transition: all 0.3s;
+            margin: 0 auto;
+        }
+
+        .right-bar-wrapper2>div>div:last-child{
+            height: 30px;
+            color: #58595b;
+            font-size: 0.875rem;
+            font-family: "Roboto Condensed";
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .a{
+            background: url("img/easybuy.png") no-repeat center center;
+        
+        }
+
+        .b{
+            background: url("img/icon_brochures.png") no-repeat center center;
+        
+        }
+
+        .c{
+            background: url("img/icon_price-list.png") no-repeat center center;
+        }
+
+        .d{
+            background: url("img/icon_financial-calculator.png") no-repeat center center;
+        
+        }
+
+        .enlarge:hover>div:first-child{
+            /* transform: scale(1.3); */
+            height: 50px;
+            width: 50px;
+            cursor: pointer;
+        }
+
+        .mid-section{ /*如果依個放response後面 會㩒過左response既display initial*/
+            display: none;
+        }
+
+        .bot-bar-reser{
+            display: none;
+            height: 11px;
+            color: #fff;
+            font-size: 0.6875rem;
+            font-family: "Roboto Condensed";
+            font-weight: bold;
+            background-color: #eb0a1e;
+        }
+
+        .desc-right .dot-container{
+            display:none;
+        }
+
+        @media screen and (max-width:600px) {
+            .menu{  
+                width: 100%;   
+                height: 70px;
+                flex-direction: row;   
+                z-index: 1; /*令個bar優先顯先  如果唔係條bar會浮出面 同chok上黎既內容重疊*/
+            }
+            .content{
+                margin-left: 0;
+                padding-top: 70px;  /*唔可以用margin-top 如果此為第一個child 你落margin-top 佢會連個parent一齊郁落黎 解決方法係parent加個padding-top 1px畀佢  一唔係就自己用padding-top黎郁*/
+                background: #f6f6f6;
+                padding-bottom: 70px; /*content既padding-bottom只係令最底啲野唔會render唔到*/
+            }
+            .menu-items, .square-btn-wrapper{
+                display: none;
+            }
+            .reser-wrapper{
+                display: none;
+            }
+            .brand-logo{
+                padding: 20px;
+            }
+            .section1{
+                height: 250px;
+                background: url(img/bg.jpeg) no-repeat center bottom;
+                background-size: cover;
+            }
+            .mid-section{
+                display: initial;
+                width: 100%;
+                
+            }
+            .mid-section h1{
+                font-size: 2.5rem;
+                margin-left: 20px;
+            }
+
+            .know-container{
+                margin-top: -20px;
+                max-width: 250px;
+                overflow: hidden;
+                height: 62px;
+            }
+
+            .know-wrapper{
+                margin-left: 20px;
+                height: 124px;
+                display: flex;
+                flex-direction: column;
+                transition: all 0.3s;
+            }
+            .know{
+                flex: 1;
+                /* border-color: #58595b; 如果border color 放border前面的話 後面的border因為無填顏色會initial border-color*/
+                /*border: 1px solid; 本來border default係黑色 但initial既話會哏隨font既顏色 最後變左上面落文字color個色*/
+                border: 1px solid #58595b;
+                font-size: 1.0625rem;
+                letter-spacing: 1.5px;
+                font-weight: bold;
+                color: #58595b;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .know-wrapper>div:last-child{
+                background: #58595b;
+                color: #fff;
+            }
+
+            .know-container:hover .know-wrapper{
+                transform: translateY(-50%);
+            }
+
+            .ur-helper{
+                display: none;
+            }
+            .triangle-wrapper{
+                display: none;
+            }
+
+            .right-bar-container{
+                width: 100%;
+                height: 70px;
+                /* flex-direction: row; */
+                bottom: 0;
+                right:initial;
+                transform: initial;
+                z-index: 1; /*令個bar優先顯先  如果唔係條bar會浮出面 同內容重疊 content既padding-bottom只係令最底啲野唔會render唔到*/
+            }
+            .right-bar-wrapper{
+                align-items: center;
+            }
+
+            .right-bar-wrapper2{
+                width: 100%;
+                height: 100%;
+                display: flex;
+            }
+
+            .right-bar-wrapper2>div>div:first-child{
+                height: 40px;
+                width: 40px;
+                background-size: contain;
+                margin: 0 auto;
+            }
+            .right-bar-wrapper2>div>div:last-child{
+                height: 11px;
+                color: #58595b;
+                font-size: 0.6875rem;
+                font-family: "Roboto Condensed";
+                font-weight: bold;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .right-bar-wrapper2>div{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                margin: 0;
+                flex:1;
+            }
+
+            .bot-bar-reser{
+                display: initial;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .section2{
+                padding: initial;
+            }
+            .section2-wrapper{
+                margin-right: initial;
+            }
+
+            /* .best-model{   
+                font-size: 1rem;
+            }   咁寫無用因為唔夠本身果個仔細所以唔會採用依個
+            */
+
+            .section2-wrapper>div:first-child{
+                font-size: 1rem;
+                padding-top: 40px;
+                padding-left: 20px;
+            }
+
+            .section2-wrapper>div:nth-child(2) {
+                padding-left: 20px;
+            }
+            .suv{
+                font-size: 6.625rem;
+                margin-top: 10px;
+            }
+
+            .car{
+                width: 100%;
+            }
+            .carImg{
+                height:100%;
+                width:100%;
+                object-fit: contain;
+            }
+            .wheel1-wrapper{
+                height: 15%;
+                width: 19%;
+                display: none;
+            }
+            .wheel2-wrapper{
+                height: 20%;
+                width: 20%;
+                display: none;
+            }
+            /* .wheel1{
+                height:100%;
+                width:100%;
+                object-fit: contain;
+                transform: translate(-99%, -47%);
+            }
+
+            .wheel2{
+                height:100%;
+                width:100%;
+                object-fit: contain;
+            } */
+
+            .desc-top>div:first-child{
+                font-size: 4.5rem;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+            .desc-left{
+                display:none;
+            }
+
+            .desc-right{
+                margin-left: 7%;
+            }
+            .desc-right .desc-bot{
+                width: 350px;
+            }
+
+            .desc-wrapper{
+                margin: 0 auto;
+            }
+
+            .pageDown>div:nth-child(2){
+                flex:0 0 80px;
+            }
+            .pageDown:hover>div:nth-child(2){
+                flex:0 0 70px;
+            }
+
+            .desc-right .dot-container{
+                display: flex;
+            }
+            .inner-left{
+                flex: 0 0 170px;
+            }
+        }
+        
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="menu">
+            <div class="brand-logo"><img src="img/logo2021.png"></div>
+            <div class="menu-items">
+                <div class="inn-item">立即購車</div> <!--啲字係div既囝囝 個div已經係parent-->
+                <div class="inner-item">
+                    <div>全線成員</div>
+                    <div class="trans"></div>
+                </div>
+                <div class="inner-item">
+                    <div>選購指南</div>
+                    <div class="trans"></div>
+                </div>
+                <div class="inner-item">
+                    <div>豐田售後服務</div>
+                    <div class="trans"></div>
+                </div>
+                <div class="inn-item">分行網絡</div>
+                <div class="inn-item">EN</div>
+            </div>
+            <div class="square-btn-wrapper">
+                <div class="left-wrapper">
+                    <div class="square-wrapper">
+                        <div class="square-left">
+                            <div class="top"></div>
+                            <div class="bot"></div>
+                        </div>
+                        <div class="square-right">
+                            <div class="top"></div>
+                            <div class="bot"></div>
+                        </div>
+                    </div>
+                </div>
+                <div></div>
+            </div>
+            <div class="reser-wrapper">
+                <div class="reser-container">
+                    <div class="reservation">預約試車</div>
+                    <div class="reservation2">預約試車</div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <section class="right-bar-container">
+                <div class="ur-helper">
+                    你的好幫手
+                </div>
+                <div class="triangle-wrapper">
+                    <div class="triangle"></div>
+                </div>
+                <div class="right-bar-wrapper">
+                    <div class="right-bar-wrapper2">
+                        <div class="aa enlarge">
+                            <div class="a"></div>
+                            <div>立即購車</div>
+                        </div>
+                        <div class="bb enlarge">
+                            <div class="b"></div>
+                            <div>介紹書</div>
+                        </div>
+                        <div class="cc enlarge">
+                            <div class="c"></div>
+                            <div>價目表</div>
+                        </div>
+                        <div class="dd enlarge">
+                            <div class="d"></div>
+                            <div>購車計算機</div>
+                        </div>
+                        <div class="bot-bar-reser">
+                            <span>預約<br>試車</span>
+                        </div>
+                        
+                    </div>
+                </div>
+            </section>
+           <section class="section1"></section>
+           <section class="mid-section">
+            <h1>立即登記</h1>
+            <div class="know-container">
+                <div class="know-wrapper">
+                    <div class="know">了解更多</div>
+                    <div class="know">了解更多</div>
+                </div>
+            </div>
+           </section>
+           <section class="section2">
+               <div class="section2-wrapper">
+                    <div>最暢銷車款</div>
+                    <div>
+                        <div class="suv">SUV</div>
+                    </div>
+                    <div class="car-container">
+                        <div class="car-wrapper">
+                            <div class="car">
+                                <img class="carImg" src="img/rav4.png">
+                                <div class="wheel1-wrapper">
+                                    <img class="wheel1" src="img/rav4_wheel01.png">
+                                </div>
+                                <div class="wheel2-wrapper">
+                                    <img class="wheel2" src="img/rav4_wheel02.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc-wrapper">
+                        <div class="desc-left">
+                            <div class="desc-top"></div>
+                            <div class="desc-bot">
+                                <div class="dot-container">
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="desc-right">
+                            <div class="desc-top">
+                                <div >RAV4</div>
+                                <div>駕馭無限可能</div>
+                                <div>
+                                    <div class="inner-left">
+                                        <div class="inner-top">
+                                            $299,910</div>
+                                        <div class="inner-bot">起</div>
+                                    </div>
+                                    <div class="inner-right">
+                                        <div class="inner-top">1,987</div>
+                                        <div class="inner-bot">CC</div>
+                                    </div>
+                                </div>
+                                <div class="dot-container">
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                </div>
+                            </div>
+                            <div class="desc-bot">
+                                <div class="pageUp">
+                                    <div></div>
+                                    <div ></div>
+                                    <p >上一個</p>
+                                </div>
+                                <div class="pageDown">
+                                    <!-- &#10141;  可以就咁拎html symbol黎用 然後用font-size / transform scale控制大小-->
+                                    <p>下一個</p>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="end"></div>
+               </div>
+           </section>
+           <section class="section3"></section>
+        </div>
+    </div>
+    <script>
+        //其實可以就咁用css做  如果css做到的就不用寫js code 因為唔知唔出黎效果係點
+        //此方法只適用於two 是one的descendant
+        // let one = document.querySelectorAll(".inner-item"),
+        // two = document.querySelectorAll(".trans");
+        // for(let i=0; i<one.length;i++){
+        //     one[i].addEventListener("mouseover", function(){
+        //     two[i].style.marginRight = "-10px";
+        //     }, true);
+        //     one[i].addEventListener("mouseout", function(){
+        //     two[i].style.marginRight = "0px";
+        //     }, true);
+        // }
+
+        //這個true是capture true. capture true的話會爸爸被call先再到囝囝
+
+        // let wrap = document.querySelector(".left-wrapper"),
+        // square0 = document.querySelectorAll(".top")[0];
+        // square1 = document.querySelectorAll(".top")[1];
+        // square00 = document.querySelectorAll(".bot")[0];
+        // square11 = document.querySelectorAll(".bot")[1];
+        // wrap.addEventListener("mouseover", function(){
+        //     square0.style.transform = `translate(${-2}px,${-2}px)`;
+        //     square1.style.transform = `translate(${2}px,${-2}px)`;
+        //     square00.style.transform = `translate(${-2}px,${2}px)`;
+        //     square11.style.transform = `translate(${2}px,${2}px)`;
+        // });
+        // wrap.addEventListener("mouseout", function(){
+        //     square0.style.transform = `translate(${0}px,${0}px)`;
+        //     square1.style.transform = `translate(${0}px,${0}px)`;
+        //     square00.style.transform = `translate(${0}px,${0}px)`;
+        //     square11.style.transform = `translate(${0}px,${0}px)`;
+        // });
+
+        // window.onscroll = function() {myFunction()};
+        // function myFunction(){
+        //     if(document.documentElement.scrollTop >700){
+        //         document.querySelector(".right-bar-container").style.transform = `translateX(0)`;
+        //         document.querySelector(".suv").style.transform = `translateX(0)`;
+        //         document.querySelector(".car-wrapper").style.transform = `translateX(0)`;
+        //         document.querySelector(".desc-right").style.transform = `translateX(0)`;
+        //         document.querySelector(".wheel1-wrapper").style.animationPlayState = `running`;
+        //         document.querySelector(".wheel2-wrapper").style.animationPlayState = `running`;
+        //     }
+        //     if(document.documentElement.scrollTop <700){
+        //         document.querySelector(".right-bar-container").style.transform = `translateX(100%)`;
+        //     }
+        // }
+
+        window.onscroll = function() {myFunction()};
+        function myFunction(){
+            if(document.documentElement.scrollTop >700){
+                document.querySelector(".right-bar-container").style.transform = `translateX(0)`;
+                document.querySelector(".suv").style.transform = `translateX(0)`;
+                document.querySelector(".car-wrapper").style.transform = `translateX(0)`;
+                document.querySelector(".desc-right").style.transform = `translateX(0)`;
+                document.querySelector(".wheel1-wrapper").style.animationPlayState = `running`;
+                document.querySelector(".wheel2-wrapper").style.animationPlayState = `running`;
+            }
+
+            const mq = window.matchMedia( "(max-width: 600px)" );
+            if(mq.matches){
+                if(document.documentElement.scrollTop>200){
+                    document.querySelector(".suv").style.transform = `translateX(0)`;
+                    document.querySelector(".car-wrapper").style.transform = `translateX(0)`;
+                    document.querySelector(".wheel1-wrapper").style.animationPlayState = `running`;
+                    document.querySelector(".wheel2-wrapper").style.animationPlayState = `running`;
+                    document.querySelector(".desc-right").style.transform = `translateX(0)`;
+                }
+            }else{
+                if(document.documentElement.scrollTop <700){
+                document.querySelector(".right-bar-container").style.transform = `translateX(100%)`;
+                }
+            }
+
+        }
+
+        // const mq = window.matchMedia( "(max-width: 600px)" );
+
+        // if (mq.matches) {
+        //     document.querySelector(".right-bar-container").style.transform = `translateX(0%)`;
+        // } 
+        // else {
+        //     alert("window width < 960px");
+        // }
+
+    </script>
+</body>
+</html>
